@@ -1,0 +1,29 @@
+# Kill Tomcat
+Get-Process -Name java -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Seconds 2
+
+# Env
+$env:JAVA_HOME="C:\Program Files\Java\jdk-11"
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+$TOMCAT_HOME="C:\Tomcat"
+$env:CATALINA_HOME=$TOMCAT_HOME
+$env:CATALINA_BASE=$TOMCAT_HOME
+
+# Clean project
+Remove-Item -Path ".\target" -Recurse -Force -ErrorAction SilentlyContinue
+
+# 🚨 CLEAN TOMCAT CACHE
+Remove-Item "$TOMCAT_HOME\webapps\TP4" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$TOMCAT_HOME\webapps\TP4.war" -Force -ErrorAction SilentlyContinue
+Remove-Item "$TOMCAT_HOME\work\Catalina" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item "$TOMCAT_HOME\temp" -Recurse -Force -ErrorAction SilentlyContinue
+
+# Build
+mvn clean package
+
+# Deploy
+Copy-Item ".\target\gestion-produits.war" "$TOMCAT_HOME\webapps\TP4.war" -Force
+
+# Start
+& "$TOMCAT_HOME\bin\startup.bat"
+start http://localhost:8080/TP4

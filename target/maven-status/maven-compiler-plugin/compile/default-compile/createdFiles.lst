@@ -1,0 +1,12 @@
+web\filter\CharacterEncodingFilter.class
+dao\interfaces\IProduitDAO.class
+dao\model\Produit.class
+dao\model\User.class
+metier\UserMetier.class
+dao\impl\UserDAOImpl.class
+util\ValidationUtil.class
+dao\impl\ProduitDAOImpl.class
+util\PasswordUtil.class
+dao\interfaces\IUserDAO.class
+dao\model\Role.class
+metier\ProduitMetier.class
